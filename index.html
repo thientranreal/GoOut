@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.cdnfonts.com/css/lovely-love" rel="stylesheet">
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/lovely-love');
+
+        /* CSS */
+        .button-1 {
+            background-color: #EA4C89;
+            border-radius: 8px;
+            border-style: none;
+            box-sizing: border-box;
+            color: #FFFFFF;
+            cursor: pointer;
+            display: inline-block;
+            font-family: 'Lovely Love', sans-serif;
+            font-size: 35px;
+            font-weight: 500;
+            line-height: 20px;
+            list-style: none;
+            margin: 0;
+            outline: none;
+            padding: 15px 35px;
+            position: relative;
+            text-align: center;
+            text-decoration: none;
+            transition: color 100ms;
+            vertical-align: baseline;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            margin-left: 10px;
+        }
+
+        .button-1:hover,
+        .button-1:focus {
+            background-color: #F082AC;
+        }
+
+        .modal {
+            display: none;
+            /* Ẩn hộp thoại modal */
+            position: fixed;
+            /* Đặt hộp thoại modal ở giữa màn hình */
+            z-index: 1;
+            /* Đặt hộp thoại modal trên các phần tử khác */
+            padding-top: 100px;
+            /* Vị trí từ trên xuống */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Chiều rộng đầy đủ */
+            height: 100%;
+            /* Chiều cao đầy đủ */
+            overflow: auto;
+            /* Bật thanh cuộn nếu cần */
+            background-color: rgb(0, 0, 0);
+            /* Màu nền */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Màu nền với độ mờ */
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+        <div class="main" style="display: flex; flex-direction: column; align-items: center;">
+            <h1 style="font-family: 'Lovely Love', sans-serif; font-size: 60px;">Will you be my lover</h1>
+            <img id="imageMinion" src="src/begging.avif" alt="begging" style="display: block; height: 300px">
+            <div class="button" style="display: flex; justify-content: center; padding-top: 10px;">
+                <button class="button-1" role="button" id="No">No</button>
+                <button class="button-1" role="button" id="Yes">Yes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hộp thoại modal -->
+    <div id="myModal" class="modal">
+        <!-- Nội dung hộp thoại modal -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p style="font-family: 'Lovely Love', sans-serif; font-size: 40px;"></p>
+        </div>
+    </div>
+
+    <script>
+        let interval;
+        let count = 0;
+        // Tạo một đối tượng Audio mới
+        let audio = new Audio('src/music.mp3');
+
+        // Đặt thuộc tính loop để tự động lặp lại tệp âm thanh khi nó kết thúc
+        audio.loop = true;
+
+        // Lấy hộp thoại modal
+        let modal = document.getElementById("myModal");
+
+        // Lấy nút mở hộp thoại modal
+        let btnNo = document.getElementById("No");
+
+        let btnYes = document.getElementById("Yes");
+
+        // Lấy phần tử <span> để đóng hộp thoại modal
+        let span = document.getElementsByClassName("close")[0];
+
+        // Lấy nội dung của modal
+        let message = span.nextElementSibling;
+
+        // Hàm để di chuyển nút đến một vị trí ngẫu nhiên
+        function moveButton() {
+            let x = Math.floor(Math.random() * window.innerWidth);
+            let y = Math.floor(Math.random() * window.innerHeight);
+
+            btnNo.style.left = x + 'px';
+            btnNo.style.top = y + 'px';
+        }
+
+        // Hàm để di chuyển nút đến một vị trí xa con trỏ chuột
+        function moveButtonMouse(e) {
+            var x = e.clientX;
+            var y = e.clientY;
+
+            // Di chuyển nút đến một vị trí xa con trỏ chuột
+            btnNo.style.left = (x + 100) + 'px';
+            btnNo.style.top = (y + 100) + 'px';
+        }
+
+        btnYes.addEventListener('click', e => {
+            audio.play();
+            let image = document.getElementById('imageMinion');
+            image.src = "src/party.gif";
+            document.getElementsByTagName('h1')[0].innerText = "OH YEAH";
+        });
+
+        // Khi nhấp vào nút, mở hộp thoại modal
+        btnNo.onclick = function () {
+            switch (count) {
+                case 0:
+                    message.innerHTML = "Wrong choice. Please try again :))";
+                    break;
+                case 1:
+                    message.innerHTML = "I said wrong choice. Please try again :)";
+                    break;
+                case 2:
+                    message.innerHTML = "I said wrong choice. Don't make me say it again";
+                    var styles = {
+                        color: "red",
+                        fontFamily: "Arial Black, Impact, Gothic"
+                    };
+
+                    for (var property in styles) {
+                        message.style[property] = styles[property];
+                    }
+                    break;
+                case 3:
+                    message.innerHTML = "Ok. You ask for it";
+                    btnNo.style.position = 'absolute';
+                    interval = setInterval(moveButton, 700);
+                    break;
+                case 4:
+                    clearInterval(interval);
+                    message.innerHTML = "You give me no choice. I have to use my ultimate move";
+                    // Thêm hiệu ứng chuyển động
+                    btnNo.style.transition = 'top 0.2s, left 0.2s';
+                    document.onmousemove = moveButtonMouse;
+                    break;
+                default:
+                    message.innerHTML = "Please press yes. Pleasssssssssssssssssssssssssssssse";
+                    message.style.fontFamily = "'Lovely Love', sans-serif";
+                    break;
+            }
+
+            modal.style.display = "block";
+            ++count;
+        }
+
+        // Khi nhấp vào <span> (x), đóng hộp thoại modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // Khi nhấp vào bất kỳ đâu ngoài hộp thoại modal, đóng nó
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+
+    </script>
+</body>
+
+</html>
